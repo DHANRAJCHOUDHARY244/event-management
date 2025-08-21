@@ -4,7 +4,7 @@ declare(strict_types=1);
 $DB_HOST = "localhost";
 $DB_USER = "root";
 $DB_PASS = "";
-$DB_NAME = "event_app";
+$DB_NAME = "namo";
 
 $JWT_SECRET = "CHANGE_THIS_TO_A_LONG_RANDOM_SECRET"; // <= change in prod
 $ACCESS_TTL = 15 * 60;       // 15 minutes
