@@ -19,6 +19,7 @@ import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import ProtectedRoute from "./auth/ProtectedRoute";
+import AddEventPage from "./pages/AddEvent";
 
 export default function App() {
   return (
@@ -36,7 +37,7 @@ export default function App() {
             <Route path="profile" element={<UserProfiles />} />
             <Route path="calendar" element={<Calendar />} />
             <Route path="blank" element={<Blank />} />
-            <Route path="form-elements" element={<FormElements />} />
+            <Route path="events" element={<AddEventPage />} />
             <Route path="basic-tables" element={<BasicTables />} />
             <Route path="alerts" element={<Alerts />} />
             <Route path="avatars" element={<Avatars />} />

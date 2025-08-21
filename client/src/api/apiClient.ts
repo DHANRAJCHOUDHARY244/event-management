@@ -1,6 +1,6 @@
 // apiClient.ts
 import axios, {AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
-
+import useAuthStore from '../store/authStore';
 // Create an axios instance
 const axiosInstance = axios.create({
 	baseURL: import.meta.env.VITE_BACKEND_URL,
@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem("token");
+      const token = useAuthStore.getState().token;
       if (token && config.headers) config.headers["Authorization"] = `Bearer ${token}`;
       return config;
     },
@@ -21,7 +21,7 @@ axiosInstance.interceptors.response.use(
     (response: AxiosResponse) => response,
     (error: AxiosError) => {
       if (error.response?.status === 401) {
-        localStorage.removeItem("token");
+        useAuthStore.getState().logout();
         window.location.href = "/signin";
       }
       return Promise.reject(error);

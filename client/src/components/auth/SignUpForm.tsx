@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
 import apiClient from "../../api/apiClient";
+import useAuthStore from "../../store/authStore";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
+  const { login } = useAuthStore.getState();
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     fname: "",
     lname: "",
@@ -65,14 +68,18 @@ export default function SignUpForm() {
         },
       });
       setSuccessMsg(res.data.message);
-      setForm({
-        fname: "",
-        lname: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        isChecked: false,
-      });
+      if (res.data.token){
+        setForm({
+          fname: "",
+          lname: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          isChecked: false,
+        });
+        login(res.data.token, res.data.user);
+        navigate("/",{ replace: true })
+      }
     } catch (err: any) {
       if (err.response?.data?.errors)
         setErrors(err.response.data.errors.reduce((acc: any, val: any) => ({ ...acc, [val]: val }), {}));
