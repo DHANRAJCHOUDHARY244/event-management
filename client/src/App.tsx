@@ -3,23 +3,16 @@ import SignIn from "./pages/AuthPages/SignIn";
 import SignUp from "./pages/AuthPages/SignUp";
 import NotFound from "./pages/OtherPage/NotFound";
 import UserProfiles from "./pages/UserProfiles";
-import Videos from "./pages/UiElements/Videos";
-import Images from "./pages/UiElements/Images";
-import Alerts from "./pages/UiElements/Alerts";
-import Badges from "./pages/UiElements/Badges";
-import Avatars from "./pages/UiElements/Avatars";
-import Buttons from "./pages/UiElements/Buttons";
-import LineChart from "./pages/Charts/LineChart";
-import BarChart from "./pages/Charts/BarChart";
 import Calendar from "./pages/Calendar";
-import BasicTables from "./pages/Tables/BasicTables";
-import FormElements from "./pages/Forms/FormElements";
-import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import ProtectedRoute from "./auth/ProtectedRoute";
-import AddEventPage from "./pages/AddEvent";
+import AddEventPage from "./pages/events/AddEvent";
+import Events from "./pages/events/Events";
+import EventDetailsPage from "./pages/events/EventDetailsPage";
+import AboutPage from "./pages/About";
+import MyEventsPage from "./pages/events/MyEventsPage";
 
 export default function App() {
   return (
@@ -36,17 +29,11 @@ export default function App() {
             <Route index element={<Home />} />
             <Route path="profile" element={<UserProfiles />} />
             <Route path="calendar" element={<Calendar />} />
-            <Route path="blank" element={<Blank />} />
-            <Route path="events" element={<AddEventPage />} />
-            <Route path="basic-tables" element={<BasicTables />} />
-            <Route path="alerts" element={<Alerts />} />
-            <Route path="avatars" element={<Avatars />} />
-            <Route path="badge" element={<Badges />} />
-            <Route path="buttons" element={<Buttons />} />
-            <Route path="images" element={<Images />} />
-            <Route path="videos" element={<Videos />} />
-            <Route path="line-chart" element={<LineChart />} />
-            <Route path="bar-chart" element={<BarChart />} />
+            <Route path="add-event" element={<AddEventPage />} />
+            <Route path="events" element={<Events />} />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="/events/:id" element={<EventDetailsPage />} />
+            <Route path="/my-events" element={<MyEventsPage />} />
           </Route>
         </Route>
 

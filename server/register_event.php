@@ -1,30 +1,52 @@
-<?php // server/register_event.php
+<?php
+// server/register_event.php
 declare(strict_types=1);
-require_once __DIR__."/config.php";
-require_once __DIR__."/jwt.php";
-header('Content-Type: application/json');
 
-$user = verifyJWTFromHeader();
-if(!$user){ http_response_code(401); echo json_encode(["status"=>"error","message"=>"Unauthorized"]); exit; }
+require_once __DIR__ . "/bootstrap.php";
+require_once __DIR__ . "/jwt.php";
+header("Content-Type: application/json");
 
-$data = json_decode(file_get_contents('php://input'),true);
-$eventId = intval($data['event_id']??0);
-if(!$eventId){ http_response_code(400); echo json_encode(["status"=>"error","message"=>"Event ID required"]); exit; }
 
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-// check if already registered
-$stmt=$conn->prepare("SELECT id FROM event_registrations WHERE user_id=? AND event_id=?");
-$stmt->bind_param("ii",$user['sub'],$eventId);
-$stmt->execute(); $stmt->store_result();
-if($stmt->num_rows>0){ http_response_code(409); echo json_encode(["status"=>"error","message"=>"Already registered"]); exit; }
-$stmt->close();
 
-// register
-$stmt=$conn->prepare("INSERT INTO event_registrations (user_id,event_id) VALUES (?,?)");
-$stmt->bind_param("ii",$user['sub'],$eventId);
-$stmt->execute();
-$stmt->close();
-$conn->close();
+try {
+    $user = verifyJWTFromHeader();
+    if (!$user) {
+        throw new Exception("Unauthorized", 401);
+    }
+    $data = body();
+    $eventId = intval($data['event_id'] ?? 0);
+    
+    if ($eventId <= 0) {
+        http_response_code(400);
+        echo json_encode(["status" => "error", "message" => "Event ID required"]);
+        exit;
+    }
+    // -------------------- Check if event exists --------------------
+    $stmt = $pdo->prepare("SELECT id FROM events WHERE id = ?");
+    $stmt->execute([$eventId]);
+    if (!$stmt->fetchColumn()) {
+        http_response_code(404);
+        echo json_encode(["status" => "error", "message" => "Event not found"]);
+        exit;
+    }
 
-echo json_encode(["status"=>"success","message"=>"Registered successfully"]);
+    // -------------------- Check if user already registered --------------------
+    $stmt = $pdo->prepare("SELECT id FROM event_registrations WHERE user_id = ? AND event_id = ?");
+    $stmt->execute([$user['sub'], $eventId]);
+    if ($stmt->fetchColumn()) {
+        http_response_code(409);
+        echo json_encode(["status" => "error", "message" => "Already registered"]);
+        exit;
+    }
+
+    // -------------------- Register user --------------------
+    $stmt = $pdo->prepare("INSERT INTO event_registrations (user_id, event_id) VALUES (?, ?)");
+    $stmt->execute([$user['sub'], $eventId]);
+
+    echo json_encode(["status" => "success", "message" => "Registered successfully"]);
+
+} catch (PDOException $e) {
+    http_response_code(200);
+    echo json_encode(["status" => "error", "message" => "Database error: " . $e->getMessage()]);
+}
