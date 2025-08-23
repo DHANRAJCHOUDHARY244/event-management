@@ -53,3 +53,19 @@ CREATE TABLE IF NOT EXISTS event_registrations (
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 ");
+// ----------------- ADD DEFAULT ADMIN -----------------
+$checkAdmin = $pdo->prepare("SELECT COUNT(*) FROM users WHERE role = 'admin'");
+$checkAdmin->execute();
+$adminExists = $checkAdmin->fetchColumn();
+
+if (!$adminExists) {
+    $fullname = "Default Admin";
+    $email = "admin@admin.com";
+    $passwordHash = password_hash("Admin@123", PASSWORD_BCRYPT);
+    $role = "admin";
+
+    $insertAdmin = $pdo->prepare("INSERT INTO users (fullname, email, password, role) VALUES (?,?,?,?)");
+    $insertAdmin->execute([$fullname, $email, $passwordHash, $role]);
+
+    error_log("✅ Default admin created: Email = admin@admin.com | Password = Admin@123");
+}
