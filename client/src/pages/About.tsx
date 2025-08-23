@@ -3,79 +3,92 @@ import PageMeta from "../components/common/PageMeta";
 import ComponentCard from "../components/common/ComponentCard";
 
 export default function AboutPage() {
-  // Sample group members
+  // Group members with real details
   const groupMembers = [
-    { name: "Dhanraj Choudhary", studentId: "123456" },
-    { name: "Member 2", studentId: "234567" },
-    { name: "Member 3", studentId: "345678" },
+    { name: "Aman", studentId: "CIHE231402" },
+    { name: "Husnain Ali", studentId: "CIHE240280" },
+    { name: "Attiq", studentId: "CIHE240404" },
+    { name: "Kartik Sharma", studentId: "CIHE231437" },
+    { name: "Charanpal Kaur", studentId: "CIHE23865" },
   ];
 
-  // Sample references
+  // References used
   const references = [
-    "Images: Unsplash.com (https://unsplash.com/)",
+    "Images: Unsplash (https://unsplash.com/)",
     "Fonts: Google Fonts (https://fonts.google.com/)",
     "Icons: FontAwesome (https://fontawesome.com/)",
+    "React: https://reactjs.org/",
+    "Tailwind CSS: https://tailwindcss.com/",
+    "PHP Documentation: https://www.php.net/",
+    "MySQL Documentation: https://dev.mysql.com/doc/",
   ];
 
   return (
     <div>
       <PageMeta
-        title="About | Dashboard"
-        description="Overview of our web application, roles, and project highlights"
+        title="About | EventHub"
+        description="Overview of Event Management System project, roles, and highlights"
       />
       <PageBreadcrumb pageTitle="About" />
 
       <div className="max-w-4xl mx-auto mt-6 space-y-6">
+        {/* About Project */}
+        <ComponentCard title="About EventHub">
+          <p>
+            EventHub is a web-based Event Management System designed to make event 
+            creation, registration, and tracking easier for users and organizers. 
+            The platform features secure authentication, real-time event listings, 
+            and an interactive dashboard for managing event details.
+          </p>
+          <p>
+            The application is built using <strong>React (Vite) + Tailwind CSS</strong> 
+            for the frontend, <strong>PHP + MySQL</strong> for the backend, and 
+            <strong>JWT-based authentication</strong> for secure access control. 
+            State management is handled with <strong>Zustand</strong>, and Axios is 
+            used for API communication.
+          </p>
+        </ComponentCard>
+
+        {/* Work Distribution */}
         <ComponentCard title="Work Distribution and Roles">
           <p>
-            Our project tasks were carefully divided among group members to
-            maximize efficiency and leverage individual strengths. Dhanraj
-            Choudhary handled backend development including API creation and
-            database management. Member 2 focused on frontend development,
-            ensuring responsive design and integrating React components. Member
-            3 was responsible for testing, debugging, and documentation to
-            maintain quality and clarity throughout the project.
+            Our team collaboratively worked on different parts of the project:
           </p>
-          <p>
-            Each member contributed to team meetings, brainstorming sessions,
-            and code reviews to ensure smooth collaboration and timely
-            completion of tasks. Roles were flexible enough to allow for peer
-            support whenever someone faced challenges or needed assistance.
-          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Aman:</strong> Backend API development, MySQL database design, and JWT authentication.</li>
+            <li><strong>Husnain Ali:</strong> Frontend development with React and Tailwind CSS, routing, and dashboard UI.</li>
+            <li><strong>Attiq:</strong> Integration of API with frontend, form validation, and error handling.</li>
+            <li><strong>Kartik Sharma:</strong> Testing, debugging, and user experience improvements.</li>
+            <li><strong>Charanpal Kaur:</strong> Documentation, report writing, and additional frontend components.</li>
+          </ul>
         </ComponentCard>
 
+        {/* Project Highlights */}
         <ComponentCard title="Project Highlights">
-          <p>
-            One of the most exciting aspects of our project was the implementation
-            of a dynamic events dashboard that allows real-time event management
-            and interactive user experiences. We also integrated secure
-            authentication using JWT and Zustand for state management, ensuring
-            both security and efficiency.
-          </p>
-          <p>
-            Another highlight was our responsive design, which ensures a
-            seamless experience across multiple devices. The integration of
-            date pickers, search filters, and sorting functionalities added
-            professional-grade usability to the platform.
-          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Responsive design ensuring seamless experience across devices.</li>
+            <li>Role-based access control (Admin, Organizer, User).</li>
+            <li>JWT Authentication with token refresh mechanism.</li>
+            <li>Dynamic dashboard for event management and registration.</li>
+            <li>Secure APIs for CRUD operations and validations.</li>
+          </ul>
         </ComponentCard>
 
+        {/* Challenges */}
         <ComponentCard title="Challenges Faced">
           <p>
-            One primary challenge we faced was synchronizing backend API
-            responses with frontend state in real-time while handling
-            pagination, filters, and search simultaneously. Ensuring data
-            consistency and reducing latency required careful planning and
-            testing.
+            One major challenge was maintaining real-time synchronization between 
+            frontend and backend while implementing pagination and search filters. 
+            We also faced issues with CORS configuration and token-based authentication 
+            which required additional debugging.
           </p>
           <p>
-            Additionally, coordinating among multiple team members in a remote
-            setup created challenges in communication and version control,
-            which we overcame using Git and regular team meetings to align
-            progress.
+            Coordinating as a team remotely and managing version control was 
+            challenging but handled efficiently using Git and frequent meetings.
           </p>
         </ComponentCard>
 
+        {/* Group Members */}
         <ComponentCard title="Group Members">
           <ul className="list-disc list-inside space-y-1">
             {groupMembers.map((member) => (
@@ -86,6 +99,7 @@ export default function AboutPage() {
           </ul>
         </ComponentCard>
 
+        {/* References */}
         <ComponentCard title="References">
           <ul className="list-disc list-inside space-y-1">
             {references.map((ref, index) => (
